@@ -24,8 +24,15 @@ int main(void)
 	SerialPort_RX_Enable();			// Activo el Receptor del Puerto Serie
 	SerialPort_Send_String(msg1);   // Envío el mensaje de Bienvenida
 
+	DDRC |= 1 << PINC0; //output
+	_delay_ms(2000); // wait for 2s according to datasheet
+	PORTC &= ~ (1 << PINC0); //set low for at least 18 ms
+	_delay_ms(20);
+	PORTC |= 1 << PINC0; // set high
+
 	while(1)
 	{
+		
 		SerialPort_Wait_Until_New_Data();	  // Pooling - Bloqueante, puede durar indefinidamente.
 		dato = SerialPort_Recive_Data();
 
