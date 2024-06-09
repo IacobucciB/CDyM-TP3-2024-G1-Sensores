@@ -1,0 +1,52 @@
+volatile uint8_t send_data = 1;
+
+void USART_Init(unsigned int ubrr) {
+    UBRR0H = (unsigned char)(ubrr>>8);
+    UBRR0L = (unsigned char)ubrr;
+    UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0); // Enable receiver, transmitter and RX interrupt
+    UCSR0C = (1<<USBS0)|(3<<UCSZ00); // 8-bit data, 2 stop bits
+}
+
+void USART_Transmit(unsigned char data) {
+    while (!(UCSR0A & (1<<UDRE0)));
+    UDR0 = data;
+}
+
+void USART_SendString(const char *str) {
+    while (*str) {
+        USART_Transmit(*str++);
+    }
+}
+
+ISR(USART_RX_vect) {
+    unsigned char received = UDR0;
+    if (received == 's' || received == 'S') {
+        send_data = !send_data;
+    }
+}
+
+int main(void) {
+    int temp, temp_dec, hum, hum_dec;
+    char buffer[50];
+
+    // Inicializar UART
+    USART_Init(MYUBRR);
+    sei(); // Enable global interrupts
+
+    // Inicializar DHT11
+    DHT11_start();
+
+    while (1) {
+        if (send_data) {
+            // Obtener datos del sensor DHT11
+            DHT11_obtenerDatos(&temp, &temp_dec, &hum, &hum_dec);
+
+            // Formatear y enviar los datos por UART
+            snprintf(buffer, sizeof(buffer), "TEMP: %d.%d °C HUM: %d.%d%%\r\n", temp, temp_dec, hum, hum_dec);
+            USART_SendString(buffer);
+        }
+        _delay_ms(2000); // Esperar 2 segundos
+    }
+
+    return 0;
+}
