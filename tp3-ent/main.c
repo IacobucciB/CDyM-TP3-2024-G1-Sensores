@@ -11,7 +11,6 @@ int main(void)
 	while(1)
 	{
 		DHT11_start();
-		DHT11_getResponse();
 		_delay_ms(1000);
 	}
 	return 0;
