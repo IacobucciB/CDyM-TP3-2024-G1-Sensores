@@ -1,4 +1,4 @@
-DHT11.d DHT11.o: .././DHT11.c .././DHT11.h .././main.h \
+terminal.d terminal.o: .././terminal.c .././terminal.h .././main.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -16,10 +16,9 @@ DHT11.d DHT11.o: .././DHT11.c .././DHT11.h .././main.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
- .././serialPort.h .././terminal.h .././UART.h .././SerialPort.h \
- .././I2C.h
+ .././DHT11.h .././UART.h .././SerialPort.h .././serialPort.h .././I2C.h
 
-.././DHT11.h:
+.././terminal.h:
 
 .././main.h:
 
@@ -57,12 +56,12 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
-.././serialPort.h:
-
-.././terminal.h:
+.././DHT11.h:
 
 .././UART.h:
 
 .././SerialPort.h:
+
+.././serialPort.h:
 
 .././I2C.h:
