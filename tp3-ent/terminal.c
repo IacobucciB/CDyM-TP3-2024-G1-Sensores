@@ -19,15 +19,16 @@ void Terminal_sendDatos(){
 	uint8_t day, date, month, year;
 	DHT11_obtenerDatos(&temperatura, &temperatura_decimal, &humedad, &humedad_decimal );
 	
-    // Obtain time from DS3231
-    DS3231_GetTime(&hours, &minutes, &seconds);
+	// Obtain time from DS3231
+	DS3231_GetTime(&hours, &minutes, &seconds);
 
-    // Obtain date from DS3231
-    DS3231_GetDate(&day, &date, &month, &year);
+	// Obtain date from DS3231
+	DS3231_GetDate(&day, &date, &month, &year);
 	// Obtener datos del sensor y formatearlos
-    sprintf(dataBuffer, "\nDATE: %02d/%02d/%02d TIME: %02d:%02d:%02d TEMP: %d.%d °C HUM: %d%%\n\n\r",
-    date, month, year, hours, minutes, seconds, temperatura, temperatura_decimal, humedad);
+	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %d%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
+	temperatura, temperatura_decimal, humedad, date, month, year, hours, minutes, seconds);
 
-    // Send the formatted string over UART
-    UART_sendString(dataBuffer);
+
+	// Send the formatted string over UART
+	UART_sendString(dataBuffer);
 }

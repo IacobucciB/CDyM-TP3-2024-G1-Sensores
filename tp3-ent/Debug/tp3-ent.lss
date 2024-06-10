@@ -851,8 +851,8 @@ void Terminal_sendDatos(){
  4c0:	9f 4f       	sbci	r25, 0xFF	; 255
  4c2:	0e 94 90 00 	call	0x120	; 0x120 <DHT11_obtenerDatos>
 	
-    // Obtain time from DS3231
-    DS3231_GetTime(&hours, &minutes, &seconds);
+	// Obtain time from DS3231
+	DS3231_GetTime(&hours, &minutes, &seconds);
  4c6:	ae 01       	movw	r20, r28
  4c8:	41 59       	subi	r20, 0x91	; 145
  4ca:	5f 4f       	sbci	r21, 0xFF	; 255
@@ -864,8 +864,8 @@ void Terminal_sendDatos(){
  4d6:	9f 4f       	sbci	r25, 0xFF	; 255
  4d8:	0e 94 f6 00 	call	0x1ec	; 0x1ec <DS3231_GetTime>
 
-    // Obtain date from DS3231
-    DS3231_GetDate(&day, &date, &month, &year);
+	// Obtain date from DS3231
+	DS3231_GetDate(&day, &date, &month, &year);
  4dc:	9e 01       	movw	r18, r28
  4de:	2d 58       	subi	r18, 0x8D	; 141
  4e0:	3f 4f       	sbci	r19, 0xFF	; 255
@@ -880,60 +880,60 @@ void Terminal_sendDatos(){
  4f2:	9f 4f       	sbci	r25, 0xFF	; 255
  4f4:	0e 94 20 01 	call	0x240	; 0x240 <DS3231_GetDate>
 	// Obtener datos del sensor y formatearlos
-    sprintf(dataBuffer, "\nDATE: %02d/%02d/%02d TIME: %02d:%02d:%02d TEMP: %d.%d °C HUM: %d%%\n\n\r",
- 4f8:	a7 96       	adiw	r28, 0x27	; 39
+	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %d%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
+ 4f8:	e0 96       	adiw	r28, 0x30	; 48
  4fa:	8f ad       	ldd	r24, Y+63	; 0x3f
- 4fc:	a7 97       	sbiw	r28, 0x27	; 39
- 4fe:	8f 93       	push	r24
- 500:	a6 96       	adiw	r28, 0x26	; 38
- 502:	8f ad       	ldd	r24, Y+63	; 0x3f
- 504:	a6 97       	sbiw	r28, 0x26	; 38
- 506:	8f 93       	push	r24
- 508:	ab 96       	adiw	r28, 0x2b	; 43
- 50a:	8f ad       	ldd	r24, Y+63	; 0x3f
- 50c:	ab 97       	sbiw	r28, 0x2b	; 43
- 50e:	8f 93       	push	r24
- 510:	aa 96       	adiw	r28, 0x2a	; 42
- 512:	8f ad       	ldd	r24, Y+63	; 0x3f
- 514:	aa 97       	sbiw	r28, 0x2a	; 42
- 516:	8f 93       	push	r24
- 518:	ad 96       	adiw	r28, 0x2d	; 45
- 51a:	8f ad       	ldd	r24, Y+63	; 0x3f
- 51c:	ad 97       	sbiw	r28, 0x2d	; 45
+ 4fc:	e0 97       	sbiw	r28, 0x30	; 48
+ 4fe:	1f 92       	push	r1
+ 500:	8f 93       	push	r24
+ 502:	af 96       	adiw	r28, 0x2f	; 47
+ 504:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 506:	af 97       	sbiw	r28, 0x2f	; 47
+ 508:	1f 92       	push	r1
+ 50a:	8f 93       	push	r24
+ 50c:	ae 96       	adiw	r28, 0x2e	; 46
+ 50e:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 510:	ae 97       	sbiw	r28, 0x2e	; 46
+ 512:	1f 92       	push	r1
+ 514:	8f 93       	push	r24
+ 516:	e4 96       	adiw	r28, 0x34	; 52
+ 518:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 51a:	e4 97       	sbiw	r28, 0x34	; 52
+ 51c:	1f 92       	push	r1
  51e:	8f 93       	push	r24
- 520:	ac 96       	adiw	r28, 0x2c	; 44
+ 520:	e3 96       	adiw	r28, 0x33	; 51
  522:	8f ad       	ldd	r24, Y+63	; 0x3f
- 524:	ac 97       	sbiw	r28, 0x2c	; 44
- 526:	8f 93       	push	r24
- 528:	e0 96       	adiw	r28, 0x30	; 48
- 52a:	8f ad       	ldd	r24, Y+63	; 0x3f
- 52c:	e0 97       	sbiw	r28, 0x30	; 48
- 52e:	1f 92       	push	r1
- 530:	8f 93       	push	r24
- 532:	af 96       	adiw	r28, 0x2f	; 47
- 534:	8f ad       	ldd	r24, Y+63	; 0x3f
- 536:	af 97       	sbiw	r28, 0x2f	; 47
- 538:	1f 92       	push	r1
+ 524:	e3 97       	sbiw	r28, 0x33	; 51
+ 526:	1f 92       	push	r1
+ 528:	8f 93       	push	r24
+ 52a:	e2 96       	adiw	r28, 0x32	; 50
+ 52c:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 52e:	e2 97       	sbiw	r28, 0x32	; 50
+ 530:	1f 92       	push	r1
+ 532:	8f 93       	push	r24
+ 534:	a7 96       	adiw	r28, 0x27	; 39
+ 536:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 538:	a7 97       	sbiw	r28, 0x27	; 39
  53a:	8f 93       	push	r24
- 53c:	ae 96       	adiw	r28, 0x2e	; 46
+ 53c:	a6 96       	adiw	r28, 0x26	; 38
  53e:	8f ad       	ldd	r24, Y+63	; 0x3f
- 540:	ae 97       	sbiw	r28, 0x2e	; 46
- 542:	1f 92       	push	r1
- 544:	8f 93       	push	r24
- 546:	e4 96       	adiw	r28, 0x34	; 52
- 548:	8f ad       	ldd	r24, Y+63	; 0x3f
- 54a:	e4 97       	sbiw	r28, 0x34	; 52
- 54c:	1f 92       	push	r1
- 54e:	8f 93       	push	r24
- 550:	e3 96       	adiw	r28, 0x33	; 51
- 552:	8f ad       	ldd	r24, Y+63	; 0x3f
- 554:	e3 97       	sbiw	r28, 0x33	; 51
- 556:	1f 92       	push	r1
- 558:	8f 93       	push	r24
- 55a:	e2 96       	adiw	r28, 0x32	; 50
- 55c:	8f ad       	ldd	r24, Y+63	; 0x3f
- 55e:	e2 97       	sbiw	r28, 0x32	; 50
- 560:	1f 92       	push	r1
+ 540:	a6 97       	sbiw	r28, 0x26	; 38
+ 542:	8f 93       	push	r24
+ 544:	ab 96       	adiw	r28, 0x2b	; 43
+ 546:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 548:	ab 97       	sbiw	r28, 0x2b	; 43
+ 54a:	8f 93       	push	r24
+ 54c:	aa 96       	adiw	r28, 0x2a	; 42
+ 54e:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 550:	aa 97       	sbiw	r28, 0x2a	; 42
+ 552:	8f 93       	push	r24
+ 554:	ad 96       	adiw	r28, 0x2d	; 45
+ 556:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 558:	ad 97       	sbiw	r28, 0x2d	; 45
+ 55a:	8f 93       	push	r24
+ 55c:	ac 96       	adiw	r28, 0x2c	; 44
+ 55e:	8f ad       	ldd	r24, Y+63	; 0x3f
+ 560:	ac 97       	sbiw	r28, 0x2c	; 44
  562:	8f 93       	push	r24
  564:	8b e6       	ldi	r24, 0x6B	; 107
  566:	91 e0       	ldi	r25, 0x01	; 1
@@ -945,10 +945,11 @@ void Terminal_sendDatos(){
  572:	1f 93       	push	r17
  574:	0f 93       	push	r16
  576:	0e 94 5c 03 	call	0x6b8	; 0x6b8 <sprintf>
-    date, month, year, hours, minutes, seconds, temperatura, temperatura_decimal, humedad);
+	temperatura, temperatura_decimal, humedad, date, month, year, hours, minutes, seconds);
 
-    // Send the formatted string over UART
-    UART_sendString(dataBuffer);
+
+	// Send the formatted string over UART
+	UART_sendString(dataBuffer);
  57a:	c8 01       	movw	r24, r16
  57c:	0e 94 db 02 	call	0x5b6	; 0x5b6 <UART_sendString>
  580:	0f b6       	in	r0, 0x3f	; 63
