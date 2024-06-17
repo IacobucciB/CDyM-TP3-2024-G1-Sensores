@@ -28,16 +28,23 @@ uint8_t DHT11_bits(){
 			_delay_us(1);
 			cant++;
 		}
-		valor <<= 1;
-		if(cant >= 29) //Si pasaron 29 us o más, es un "1"
-		valor |= 0x01;
+		if (cant < 29)
+		{
+			valor = valor * 2;
+		} 
+		else
+		{
+			valor = valor * 2 + 1;
+		}
 	}
+	valor = valor * 2 + 1;
 	return valor;
 }
 
 void DHT11_obtenerDatos(uint8_t *temperatura,uint8_t *temperatura_decimal, uint8_t *humedad, uint8_t *humedad_decimal){
-	//uint8_t sum=0;
-
+	uint8_t sum = 0;
+	uint8_t checksum = 0;
+	
 	DHT11_startSignal_y_respuesta();
 	
 	//Empieza la transmision de datos
@@ -46,10 +53,20 @@ void DHT11_obtenerDatos(uint8_t *temperatura,uint8_t *temperatura_decimal, uint8
 // 	*humedad_decimal=BcdToDec(DHT11_bits());
 // 	*temperatura=BcdToDec(DHT11_bits());
 // 	*temperatura_decimal=BcdToDec(DHT11_bits());
-	*humedad=DHT11_bits() - 100;
+	*humedad=DHT11_bits();
 	*humedad_decimal=DHT11_bits();
-	*temperatura=DHT11_bits() * 2;
+	*temperatura=DHT11_bits();
 	*temperatura_decimal=DHT11_bits();
-	//sum=DHT11_bits();
+	checksum=DHT11_bits();
+	
+	*humedad_decimal = 0;
+	*temperatura_decimal = 0;
+/*
+	sum = *humedad + *humedad_decimal + *temperatura + *temperatura_decimal;
+	if (checksum !=(sum & 0xFF))
+	{
+		*temperatura = 0;
+	}
+*/
 }
 	
