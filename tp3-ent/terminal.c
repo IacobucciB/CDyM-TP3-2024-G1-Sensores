@@ -12,9 +12,9 @@ int Terminal_procesarcomando(char *s){
 
 
 void Terminal_sendDatos(){
-	char temperaturayhumedad[50]; // Ampliamos el tamaño del buffer para dar espacio a la fecha y hora
+	//char temperaturayhumedad[50]; // Ampliamos el tamaño del buffer para dar espacio a la fecha y hora
 	char dataBuffer[100];
-	int humedad, humedad_decimal, temperatura_decimal, temperatura;
+	uint8_t humedad, humedad_decimal, temperatura_decimal, temperatura = 0;
 	uint8_t hours, minutes, seconds;
 	uint8_t day, date, month, year;
 	DHT11_obtenerDatos(&temperatura, &temperatura_decimal, &humedad, &humedad_decimal);
@@ -34,12 +34,10 @@ void Terminal_sendDatos(){
 		humedad = humedad - 100;
 	}
 	
-//	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %02d%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
-//	temperatura, temperatura_decimal, humedad, date, month, year, hours, minutes, seconds);
-
-
-	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %02d.%02d FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
-	temperatura, temperatura_decimal, humedad, humedad_decimal,date, month, year, hours, minutes, seconds);
+	temperatura = temperatura*2;
+	
+	sprintf(dataBuffer, "TEMP: %d.0 °C HUM: %d.0%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
+	temperatura, humedad, date, month, year, hours, minutes, seconds);
 
 
 	// Send the formatted string over UART

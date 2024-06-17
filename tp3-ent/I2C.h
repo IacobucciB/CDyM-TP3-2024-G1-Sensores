@@ -11,6 +11,8 @@ void I2C_Write(uint8_t data);
 uint8_t I2C_Read_Ack(void);
 uint8_t I2C_Read_NAck(void);
 
+uint8_t BcdToDec(uint8_t val);
+
 // DS3231 functions
 void DS3231_GetTime(uint8_t *hours, uint8_t *minutes, uint8_t *seconds);
 void DS3231_GetDate(uint8_t *day, uint8_t *month, uint8_t *year);

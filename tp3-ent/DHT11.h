@@ -6,7 +6,7 @@
 #include "UART.h"
 
 void DHT11_startSignal_y_respuesta();
-int DHT11_bits();
-void DHT11_obtenerDatos(int *, int *, int *, int *);
+uint8_t DHT11_bits();
+void DHT11_obtenerDatos(uint8_t *, uint8_t *, uint8_t *, uint8_t *);
 
 #endif /* DHT11_H_ */
