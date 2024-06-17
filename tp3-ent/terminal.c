@@ -2,11 +2,10 @@
 #include "terminal.h"
 
 int Terminal_procesarcomando(char *s){
-	if (!strcmp(s,'S') || !strcmp(s,'s')) { // Comando para detener/reanudar transmisión
+	if (!strcmp(s, "S") || !strcmp(s, "s")) { // Comando para detener/reanudar transmisión
 		return 1;
-	}
-	else {
-		return 2;// Comando no válido
+		} else {
+		return 2; // Comando no válido
 	}
 }
 
@@ -17,6 +16,7 @@ void Terminal_sendDatos(){
 	uint8_t humedad, humedad_decimal, temperatura_decimal, temperatura = 0;
 	uint8_t hours, minutes, seconds;
 	uint8_t day, date, month, year;
+	
 	DHT11_obtenerDatos(&temperatura, &temperatura_decimal, &humedad, &humedad_decimal);
 	
 	// Obtain time from DS3231
@@ -28,16 +28,19 @@ void Terminal_sendDatos(){
 	// Obtener datos del sensor y formatearlos
 	
 	DS3231_GetClock(&hours, &minutes, &seconds, &day, &date, &month, &year);
-	
+	/*
 	if (humedad > 100)
 	{
-		humedad = humedad - 100;
+	humedad = humedad - 100;
 	}
+	*/
+	//	temperatura = temperatura*2;
 	
-	temperatura = temperatura*2;
-	
-	sprintf(dataBuffer, "TEMP: %d.0 °C HUM: %d.0%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
-	temperatura, humedad, date, month, year, hours, minutes, seconds);
+	//	sprintf(dataBuffer, "TEMP: %d.0 °C HUM: %d.0%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
+	//	temperatura, humedad, date, month, year, hours, minutes, seconds);
+
+	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %d.%d FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
+	temperatura, temperatura_decimal, humedad, humedad_decimal, date, month, year, hours, minutes, seconds);
 
 
 	// Send the formatted string over UART
