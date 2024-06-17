@@ -23,15 +23,15 @@ int DHT11_bits(){
 	for(i=0; i<8; i++){
 		cant=0;  //cantidad de us transcurridos
 		while(PINC & (1<<PINC0));  //Esperar que el sensor ponga en bajo la señal
-		while((PINC & (1<<PINC0))==0); //Eperar que el sensor suba la señal 
+		while((PINC & (1<<PINC0))==0); //Eperar que el sensor suba la señal
 		while(PINC & (1<<PINC0)){  //Mietras la señal este en alto
-			_delay_us(1); 
-			cant++; 
+			_delay_us(1);
+			cant++;
 		}
 		if(cant < 29) //Si pasaron menos de 29us es un "0"
-			valor = (valor<<1);
+		valor = (valor<<1);
 		else //sino es un "1"
-			valor = (valor<<1)|(0x01);
+		valor = (valor<<1)|(0x01);
 	}
 	return valor;
 }
@@ -49,4 +49,3 @@ void DHT11_obtenerDatos(int *temperatura,int *temperatura_decimal, int *humedad,
 	*temperatura_decimal=DHT11_bits();
 	sum=DHT11_bits();
 }
-	

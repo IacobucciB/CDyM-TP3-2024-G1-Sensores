@@ -34,8 +34,12 @@ void Terminal_sendDatos(){
 		humedad = humedad - 100;
 	}
 	
-	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %02d%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
-	temperatura, temperatura_decimal, humedad, date, month, year, hours, minutes, seconds);
+//	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %02d%% FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
+//	temperatura, temperatura_decimal, humedad, date, month, year, hours, minutes, seconds);
+
+
+	sprintf(dataBuffer, "TEMP: %d.%d °C HUM: %02d.%02d FECHA: %02d/%02d/%02d HORA: %02d:%02d:%02d\r\n",
+	temperatura, temperatura_decimal, humedad, humedad_decimal,date, month, year, hours, minutes, seconds);
 
 
 	// Send the formatted string over UART
