@@ -277,9 +277,9 @@ void DHT11_obtenerDatos(uint8_t *temperatura,uint8_t *temperatura_decimal, uint8
  152:	10 82       	st	Z, r1
 	*temperatura_decimal = 0;
  154:	18 82       	st	Y, r1
-	if (checksum !=(sum & 0xFF))
 	{
-		*temperatura = 0;
+		*temperatura = -1;
+		*humedad = -1;
 	}
 */
 }
