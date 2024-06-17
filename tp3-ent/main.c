@@ -1,54 +1,42 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
+#include "main.h"
 
-#define F_CPU 16000000UL
-#include <util/delay.h>
+static char bienvenida[] = "Registrador de temperatura y humedad \n\r Ingrese s: para reanudar, S para detener,\n\r ";
+static char novalido[] = "Comando no valido\n\r";
+volatile int comando_anterior;
 
-#include "SerialPort.h"
+int main(void){
 
+	UART_init();   // Inicializar UART
+	sei();         // Activar máscara de interrupciones
+	
+	UART_sendString(bienvenida); // Enviar mensaje de inicio/bienvenida
 
-#define BR9600 (0x67)	// 0x67=103 configura BAUDRATE=9600@16MHz
+	// Initialize the DS3231
+	//DS3231_Init();
 
-//mensajes de bienvenida y despedida
-char msg1[] = "Hola Mundo, si presiona 's' termina el programa, por favor ingrese una tecla:\n\r";
-char msg2[] = "\n\rHasta luego!";
+	// Set the desired time: hours, minutes, seconds
+	//DS3231_SetTime(14, 30, 0); // 14:30:00 (2:30 PM)
 
-
-int main(void)
-{
-
-	volatile char dato = 0;
-
-	SerialPort_Init(BR9600); 		// Inicializo formato 8N1 y BAUDRATE = 9600bps
-	SerialPort_TX_Enable();			// Activo el Transmisor del Puerto Serie
-	SerialPort_RX_Enable();			// Activo el Receptor del Puerto Serie
-	SerialPort_Send_String(msg1);   // Envío el mensaje de Bienvenida
-
-	DDRC |= 1 << PINC0; //output
-	_delay_ms(2000); // wait for 2s according to datasheet
-	PORTC &= ~ (1 << PINC0); //set low for at least 18 ms
-	_delay_ms(20);
-	PORTC |= 1 << PINC0; // set high
-
-	while(1)
-	{
-		
-		SerialPort_Wait_Until_New_Data();	  // Pooling - Bloqueante, puede durar indefinidamente.
-		dato = SerialPort_Recive_Data();
-
-		// Si presionan 's' se termina el programa
-		if( dato == 's')
-		{
-			SerialPort_Send_String(msg2);  // Envío el string de despedida
-			while(1);
+	// Set the desired date: day, date, month, year
+	//DS3231_SetDate(1, 9, 6, 24); // Monday, 09 June 2024 (1 for Monday, 0 for Sunday)
+	I2C_Init();
+	DS3231_SetDateTime(14, 30, 45, 4, 12, 6, 24); // Establece la hora a 14:30:45 y la fecha a 12/06/2024
+	while (1){
+		if (UART_hayComando()) {
+			char comando = UART_getComando();
+			if (comando == 's') {
+				transmision_activa = 1; // Reanudar transmisión
+				} else if (comando == 'S') {
+				transmision_activa = 0; // Detener transmisión
+				} else {
+				UART_sendString(novalido); // Enviar mensaje de comando no válido
+			}
+			UART_setHayComando(); // Avisar que el comando ya fue procesado
 		}
-		else
-		{	// Eco:
-			SerialPort_Wait_For_TX_Buffer_Free(); // Espero a que el canal de transmisión este libre (bloqueante)
-			SerialPort_Send_Data(dato);			  // Envío el dato recibido
+
+		if (transmision_activa) {
+			Terminal_sendDatos();  // Obtener y enviar datos del sensor
+			_delay_ms(2000);
 		}
 	}
-	return 0;
 }
-
-
